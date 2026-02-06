@@ -12,13 +12,13 @@ describe('Завдання 4: Використання різних способ
   });
 
   test('Перевірка елементів статті Selenium з використанням різних локаторів', async () => {
-    // Відкриваємо статтю про Selenium
+    
     await driver.get('https://en.wikipedia.org/wiki/Selenium');
     
-    // Очікуємо завантаження сторінки
+    
     await driver.wait(until.titleContains('Selenium'), 10000);
 
-    // 1. Використання By.xpath для пошуку заголовку статті
+    
     const headingXPath = await driver.findElement(
       By.xpath('//h1[@id="firstHeading"]')
     );
@@ -27,7 +27,7 @@ describe('Завдання 4: Використання різних способ
     console.log(`Заголовок статті (XPath): ${headingText}`);
     expect(headingText).toBe('Selenium');
 
-    // 2. Використання By.css для вибору посилань у меню навігації
+    
     const navLinks = await driver.findElements(
       By.css('#mw-panel .vector-menu-content-list a')
     );
@@ -35,31 +35,31 @@ describe('Завдання 4: Використання різних способ
     expect(navLinks.length).toBeGreaterThan(0);
     console.log(`Знайдено ${navLinks.length} посилань у навігаційному меню`);
 
-    // Перевіряємо перші кілька посилань
+    
     for (let i = 0; i < Math.min(3, navLinks.length); i++) {
       const linkText = await navLinks[i].getText();
       const linkHref = await navLinks[i].getAttribute('href');
       
       console.log(`  Посилання ${i + 1}: ${linkText} -> ${linkHref}`);
       
-      // Перевіряємо, що href містить домен wikipedia.org
+      
       if (linkHref) {
         expect(linkHref).toContain('wikipedia.org');
       }
     }
 
-    // 3. Використання By.id для пошуку форми пошуку
+
     const searchForm = await driver.findElement(By.id('searchform'));
     expect(await searchForm.isDisplayed()).toBe(true);
 
-    // Пошук поля вводу пошуку за name
+    
     const searchInput = await driver.findElement(By.name('search'));
     expect(await searchInput.isDisplayed()).toBe(true);
     
     const searchPlaceholder = await searchInput.getAttribute('placeholder');
     console.log(`Placeholder пошукового поля: ${searchPlaceholder}`);
 
-    // 4. Додаткова перевірка: отримання посилань зі змісту статті
+    
     const tocLinks = await driver.findElements(
       By.css('#toc .toc-link')
     );
@@ -73,7 +73,7 @@ describe('Завдання 4: Використання різних способ
         
         console.log(`  ${i + 1}. ${linkText} (${linkHref})`);
         
-        // Перевіряємо формат href (має починатися з #)
+        
         expect(linkHref).toMatch(/^#/);
       }
     }
@@ -83,14 +83,14 @@ describe('Завдання 4: Використання різних способ
     await driver.get('https://en.wikipedia.org/wiki/Selenium');
     await driver.wait(until.titleContains('Selenium'), 10000);
 
-    // Використання XPath з умовами
+    
     const infobox = await driver.findElement(
       By.xpath('//table[contains(@class, "infobox")]')
     );
     expect(await infobox.isDisplayed()).toBe(true);
     console.log('✓ Infobox знайдено за допомогою XPath');
 
-    // Використання CSS селектора для пошуку зображень
+    
     const images = await driver.findElements(
       By.css('img.mw-file-element')
     );
@@ -102,7 +102,7 @@ describe('Завдання 4: Використання різних способ
       console.log(`Перше зображення: ${firstImageAlt} (${firstImageSrc})`);
     }
 
-    // Використання CSS для категорій
+    
     const categoryLinks = await driver.findElements(
       By.css('#mw-normal-catlinks ul li a')
     );
